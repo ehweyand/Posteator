@@ -13,6 +13,8 @@ class DashboardController extends Controller {
     }
 
     public function index() {
+        //dd(auth()->user()->posts); //exibe uma Collection, com todos os posts do usuário logado!
+        
         return view('dashboard');
     }
 }

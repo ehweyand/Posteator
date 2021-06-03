@@ -37,7 +37,16 @@ class PostLikeController extends Controller
         // - A pessoa que deu like é o usuário autenticado atual
         // - Post que teve um like
 
-        Mail::to($post->user)->send(new PostLiked(auth()->user(), $post));
+        //Agora com soft delete, é possível verificar se ele ainda não teve um like
+        // Basta testar e verificar os deletados
+        //Pega o post e retorna a collection com os likes relacionados, pega apenas os excluidos (soft deleted)
+        //onde o user_id é igual ao id do usuário logado na sessão, e conta quantos pra verificar.
+
+        if(!$post->likes()->onlyTrashed()->where('user_id', $request->user()->id)->count()) {
+
+            Mail::to($post->user)->send(new PostLiked(auth()->user(), $post));
+
+        }
         
         // voltar
         return back();

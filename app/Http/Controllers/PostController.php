@@ -7,6 +7,13 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
+
+    public function __construct() {
+        //$this->middleware(['auth']); // middleware pra cada método no controller, use only e except para alterar a aplicação do middleware
+        $this->middleware(['auth'])->only(['store', 'destroy']);
+    }
+
+
     public function index() {
 
         //$posts = Post::get(); // get all

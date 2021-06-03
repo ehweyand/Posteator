@@ -21,6 +21,11 @@ class PostController extends Controller
         return view('posts.index', ['posts' => $posts]);
     }
 
+    // Single post page
+    public function show(Post $post) {
+        return view('posts.show', ['post' => $post]);
+    }
+
     public function store(Request $request) {
 
         $this->validate($request, [

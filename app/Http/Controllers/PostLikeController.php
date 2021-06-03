@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Mail\PostLiked;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PostLikeController extends Controller
 {
@@ -29,6 +31,13 @@ class PostLikeController extends Controller
            'user_id' => $request->user()->id,
 
         ]);
+
+        // Quando o like é criado, avisa o usuário (dono do post recebido por param) que alguém deu like via email
+        // Passando também os parâmetros
+        // - A pessoa que deu like é o usuário autenticado atual
+        // - Post que teve um like
+
+        Mail::to($post->user)->send(new PostLiked(auth()->user(), $post));
         
         // voltar
         return back();

@@ -50,8 +50,17 @@ class User extends Authenticatable
     }
 
     // Relacionamento com likes
+    
+    // Quantos likes o usuário criou
 
     public function likes() {
         return $this->hasMany(Like::class);
+    }
+
+    // Acesso à modelos distantes
+    // Nesse caso, quantos likes o usuário recebeu
+
+    public function receivedLikes() {
+        return $this->hasManyThrough(Like::class, Post::class); // Muitos Likes por vários Posts
     }
 }
